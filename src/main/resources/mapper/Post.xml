@@ -18,7 +18,12 @@
 
 	<select id="readAllPosts"
 		resultType="com.tenco.blog.repository.model.Post">
-		select * from post_tb
+		select * from post_tb limit #{limit} offset #{offset}
+	</select>
+
+	<select id="countAll"
+		resultType="int">
+		select count(*) from post_tb
 	</select>
 
 </mapper>

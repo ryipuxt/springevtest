@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.tenco.blog.repository.model.Post;
 import com.tenco.blog.service.PostService;
@@ -19,9 +20,21 @@ public class BoardController {
 	PostService postService;
 
 	@GetMapping("/index")
-	public String index(Model model) {
-		List<Post> postlist = postService.readAllPosts();
+	public String index(Model model, @RequestParam(value = "page", defaultValue = "1") int page,
+			@RequestParam(value = "size", defaultValue = "5") int size) {
+
+		int totalRecords = postService.countAll();
+		int totalPages = (int) Math.ceil((double) totalRecords / size);
+
+		List<Post> postlist = postService.readAllPosts(page, size);
+		System.err.println(postlist);
+
 		model.addAttribute("PostList", postlist);
+
+		model.addAttribute("currentPage", page);
+		model.addAttribute("totalPages", totalPages);
+		model.addAttribute("size", size);
+
 		return "index";
 	}
 

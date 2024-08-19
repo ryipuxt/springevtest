@@ -3,6 +3,7 @@ package com.tenco.blog.repository.interfaces;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import com.tenco.blog.repository.model.Post;
 
@@ -15,6 +16,8 @@ public interface PostRepository {
 
 	public int deleteById(Integer id);
 
-	public List<Post> readAllPosts();
+	List<Post> readAllPosts(@Param("limit") int limit, @Param("offset") int offset);
+
+	public int countAll();
 
 }

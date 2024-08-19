@@ -1,5 +1,6 @@
 package com.tenco.blog.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,10 +36,12 @@ public class PostService {
 	}
 
 	@Transactional
-	public List<Post> readAllPosts() {
-		List<Post> post = null;
+	public List<Post> readAllPosts(int page, int size) {
+		List<Post> post = new ArrayList<>();
+		int limit = size;
+		int offset = (page - 1) * size;
 		try {
-			post = postRepository.readAllPosts();
+			post = postRepository.readAllPosts(limit, offset);
 		} catch (Exception e) {
 		}
 
@@ -63,6 +66,10 @@ public class PostService {
 			e.printStackTrace();
 		}
 
+	}
+
+	public int countAll() {
+		return postRepository.countAll();
 	}
 
 }
